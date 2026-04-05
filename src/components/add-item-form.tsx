@@ -45,6 +45,7 @@ export function AddItemForm() {
   const [rating, setRating] = useState<number | null>(null);
   const [review, setReview] = useState("");
   const [favorite, setFavorite] = useState(false);
+  const [posterUrl, setPosterUrl] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,6 +78,7 @@ export function AddItemForm() {
       rating,
       review: review.trim(),
       favorite,
+      posterUrl: posterUrl.trim() || undefined,
       posterGradient: randomGradient,
     });
 
@@ -181,6 +183,22 @@ export function AddItemForm() {
           rows={3}
           className="bg-white/5 resize-none"
         />
+      </div>
+
+      {/* Poster URL */}
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="posterUrl">Poster Image URL</Label>
+        <Input
+          id="posterUrl"
+          type="url"
+          placeholder="https://image.tmdb.org/t/p/w500/..."
+          value={posterUrl}
+          onChange={(e) => setPosterUrl(e.target.value)}
+          className="bg-white/5"
+        />
+        <p className="text-xs text-muted-foreground">
+          Paste a direct image URL for the poster (optional)
+        </p>
       </div>
 
       {/* Favorite */}

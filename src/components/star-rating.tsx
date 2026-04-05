@@ -1,6 +1,7 @@
 "use client";
 
 import { Star } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 
 interface StarRatingProps {
@@ -30,37 +31,53 @@ export function StarRating({
 
         if (readonly || !onChange) {
           return (
-            <Star
+            <motion.div
               key={star}
-              className={cn(
-                sizeClasses[size],
-                filled
-                  ? "fill-yellow-400 text-yellow-400"
-                  : "text-white/20"
-              )}
-            />
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: star * 0.05, type: "spring", stiffness: 400, damping: 15 }}
+            >
+              <Star
+                className={cn(
+                  sizeClasses[size],
+                  filled
+                    ? "fill-yellow-400 text-yellow-400"
+                    : "text-white/20"
+                )}
+              />
+            </motion.div>
           );
         }
 
         return (
-          <button
+          <motion.button
             key={star}
             type="button"
             onClick={() => {
-              // Clicking the same star clears the rating
               onChange(value === star ? null : star);
             }}
-            className="hover:scale-110 transition-transform"
+            whileHover={{ scale: 1.3 }}
+            whileTap={{ scale: 0.8, rotate: -15 }}
+            transition={{ type: "spring", stiffness: 500, damping: 15 }}
           >
-            <Star
-              className={cn(
-                sizeClasses[size],
-                filled
-                  ? "fill-yellow-400 text-yellow-400"
-                  : "text-white/30 hover:text-yellow-400/50"
-              )}
-            />
-          </button>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={filled ? "filled" : "empty"}
+                initial={{ scale: 0.5, rotate: -30 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: "spring", stiffness: 500, damping: 12 }}
+              >
+                <Star
+                  className={cn(
+                    sizeClasses[size],
+                    filled
+                      ? "fill-yellow-400 text-yellow-400"
+                      : "text-white/30 hover:text-yellow-400/50"
+                  )}
+                />
+              </motion.div>
+            </AnimatePresence>
+          </motion.button>
         );
       })}
     </div>

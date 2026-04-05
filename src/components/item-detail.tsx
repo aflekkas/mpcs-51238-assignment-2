@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { toast } from "sonner";
 import { ArrowLeft, Heart } from "lucide-react";
 import Link from "next/link";
@@ -31,6 +32,7 @@ export function ItemDetail({ item }: ItemDetailProps) {
   const { updateItem, deleteItem } = useWatchlist();
   const [isEditingReview, setIsEditingReview] = useState(false);
   const [reviewDraft, setReviewDraft] = useState(item.review);
+  const [imgError, setImgError] = useState(false);
 
   const handleStatusChange = (newStatus: string) => {
     updateItem(item.id, { status: newStatus as WatchStatus });
@@ -74,9 +76,20 @@ export function ItemDetail({ item }: ItemDetailProps) {
         {/* Poster */}
         <div className="shrink-0">
           <div
-            className="w-full max-w-xs mx-auto lg:mx-0 lg:w-64 aspect-[2/3] rounded-md overflow-hidden"
+            className="relative w-full max-w-xs mx-auto lg:mx-0 lg:w-64 aspect-[2/3] rounded-md overflow-hidden"
             style={{ background: item.posterGradient }}
-          />
+          >
+            {item.posterUrl && !imgError && (
+              <Image
+                src={item.posterUrl}
+                alt={item.title}
+                fill
+                className="object-cover"
+                sizes="256px"
+                onError={() => setImgError(true)}
+              />
+            )}
+          </div>
         </div>
 
         {/* Details */}

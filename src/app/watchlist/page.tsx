@@ -8,6 +8,7 @@ import { PosterCard } from "@/components/poster-card";
 import { EmptyState } from "@/components/empty-state";
 import { Film, Search, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
 import { type WatchStatus } from "@/lib/types";
 
@@ -47,25 +48,37 @@ export default function WatchlistPage() {
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
       <div className="flex flex-col gap-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <motion.div
+          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
           <div>
             <h1 className="text-3xl font-bold text-white">My List</h1>
             <p className="text-muted-foreground mt-1">
               {items.length} {items.length === 1 ? "title" : "titles"} in your watchlist
             </p>
           </div>
-          <Button
-            nativeButton={false}
-            className="bg-netflix-red hover:bg-netflix-red/80 text-white font-semibold gap-2 w-fit"
-            render={<Link href="/add" />}
-          >
-            <Plus className="h-4 w-4" />
-            Add New
-          </Button>
-        </div>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Button
+              nativeButton={false}
+              className="bg-netflix-red hover:bg-netflix-red/80 text-white font-semibold gap-2 w-fit"
+              render={<Link href="/add" />}
+            >
+              <Plus className="h-4 w-4" />
+              Add New
+            </Button>
+          </motion.div>
+        </motion.div>
 
         {/* Search */}
-        <div className="relative">
+        <motion.div
+          className="relative"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15, duration: 0.4 }}
+        >
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search by title or genre..."
@@ -73,40 +86,74 @@ export default function WatchlistPage() {
             onChange={(e) => setSearch(e.target.value)}
             className="pl-9 bg-white/5"
           />
-        </div>
+        </motion.div>
 
         {/* Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList variant="line" className="w-full sm:w-auto overflow-x-auto scrollbar-hide">
-            {tabs.map((tab) => (
-              <TabsTrigger key={tab.value} value={tab.value}>
-                {tab.label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25, duration: 0.4 }}
+        >
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList variant="line" className="w-full sm:w-auto overflow-x-auto scrollbar-hide">
+              {tabs.map((tab) => (
+                <TabsTrigger key={tab.value} value={tab.value}>
+                  {tab.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
 
-          {tabs.map((tab) => (
-            <TabsContent key={tab.value} value={tab.value}>
-              {filtered.length > 0 ? (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
-                  {filtered.map((item) => (
-                    <PosterCard key={item.id} item={item} className="w-full" />
-                  ))}
-                </div>
-              ) : (
-                <EmptyState
-                  icon={Film}
-                  title="Nothing here"
-                  description={
-                    search
-                      ? `No results for "${search}"`
-                      : "No items in this category yet."
-                  }
-                />
-              )}
-            </TabsContent>
-          ))}
-        </Tabs>
+            {tabs.map((tab) => (
+              <TabsContent key={tab.value} value={tab.value}>
+                <AnimatePresence mode="wait">
+                  {filtered.length > 0 ? (
+                    <motion.div
+                      key={`${activeTab}-${search}-grid`}
+                      className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {filtered.map((item, i) => (
+                        <motion.div
+                          key={item.id}
+                          initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          transition={{
+                            delay: i * 0.04,
+                            type: "spring",
+                            stiffness: 200,
+                            damping: 20,
+                          }}
+                        >
+                          <PosterCard item={item} className="w-full" />
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="empty"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0 }}
+                    >
+                      <EmptyState
+                        icon={Film}
+                        title="Nothing here"
+                        description={
+                          search
+                            ? `No results for "${search}"`
+                            : "No items in this category yet."
+                        }
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </TabsContent>
+            ))}
+          </Tabs>
+        </motion.div>
       </div>
     </div>
   );
