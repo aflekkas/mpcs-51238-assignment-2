@@ -35,6 +35,12 @@ export function WatchlistProvider({ children }: { children: ReactNode }) {
     (data: Omit<WatchItem, "id" | "slug" | "addedAt">) => {
       let slug = slugify(data.title);
 
+      // Prevent collisions with static routes
+      const RESERVED_SLUGS = new Set(["add", "recommend"]);
+      if (RESERVED_SLUGS.has(slug)) {
+        slug = `${slug}-1`;
+      }
+
       // Handle slug collisions
       const existingSlugs = new Set(items.map((i) => i.slug));
       if (existingSlugs.has(slug)) {

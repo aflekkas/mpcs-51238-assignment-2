@@ -59,7 +59,7 @@ export function ItemDetail({ item }: ItemDetailProps) {
   const handleDelete = () => {
     deleteItem(item.id);
     toast.success(`Deleted "${item.title}"`);
-    router.push("/watchlist");
+    router.push("/");
   };
 
   return (
@@ -71,7 +71,7 @@ export function ItemDetail({ item }: ItemDetailProps) {
         transition={{ duration: 0.3 }}
       >
         <Link
-          href="/watchlist"
+          href="/"
           className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-white transition-colors w-fit"
         >
           <ArrowLeft className="h-4 w-4" />

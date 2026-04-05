@@ -57,7 +57,7 @@ export default function RecommendPage() {
             nativeButton={false}
             variant="outline"
             className="border-white/20 text-white hover:bg-white/10"
-            render={<Link href="/watchlist" />}
+            render={<Link href="/" />}
           >
             Browse Watchlist
           </Button>

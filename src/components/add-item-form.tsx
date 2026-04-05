@@ -21,7 +21,7 @@ import { Switch } from "@/components/ui/switch";
 import { useWatchlist } from "@/lib/watchlist-context";
 import { GENRES, type MediaType, type WatchStatus } from "@/lib/types";
 import { StarRating } from "./star-rating";
-import { searchTmdb, isTmdbConfigured, type TmdbSearchResult } from "@/lib/tmdb";
+import { searchTmdb, type TmdbSearchResult } from "@/lib/tmdb";
 
 const POSTER_GRADIENTS = [
   "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
@@ -56,11 +56,10 @@ export function AddItemForm() {
   const [showResults, setShowResults] = useState(false);
   const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
-  const tmdbEnabled = isTmdbConfigured();
 
   const doSearch = useCallback(
     async (query: string) => {
-      if (!tmdbEnabled || query.trim().length < 2) {
+      if (query.trim().length < 3) {
         setSearchResults([]);
         setShowResults(false);
         return;
@@ -72,13 +71,13 @@ export function AddItemForm() {
       setShowResults(results.length > 0);
       setIsSearching(false);
     },
-    [mediaType, tmdbEnabled]
+    [mediaType]
   );
 
   // Debounced search on title change
   useEffect(() => {
     if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
-    if (!tmdbEnabled || title.trim().length < 3) {
+    if (title.trim().length < 3) {
       setSearchResults([]);
       setShowResults(false);
       return;
@@ -87,7 +86,7 @@ export function AddItemForm() {
     return () => {
       if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
     };
-  }, [title, doSearch, tmdbEnabled]);
+  }, [title, doSearch]);
 
   // Close results when clicking outside
   useEffect(() => {
@@ -143,7 +142,7 @@ export function AddItemForm() {
     });
 
     toast.success(`Added "${newItem.title}" to your watchlist`);
-    router.push(`/watchlist/${newItem.slug}`);
+    router.push(`/${newItem.slug}`);
   };
 
   return (

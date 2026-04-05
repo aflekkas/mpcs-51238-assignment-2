@@ -61,7 +61,7 @@ export function PosterCard({ item, size = "md", className }: PosterCardProps) {
   };
 
   return (
-    <Link href={`/watchlist/${item.slug}`} className={cn("group block shrink-0", className)}>
+    <Link href={`/${item.slug}`} className={cn("group block shrink-0", className)}>
       <motion.div
         ref={cardRef}
         className={cn(

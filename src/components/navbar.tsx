@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, Plus, Sparkles, List, Home } from "lucide-react";
+import { Menu, Plus, Sparkles, List } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,8 +15,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
 
 const navLinks = [
-  { href: "/", label: "Home", icon: Home },
-  { href: "/watchlist", label: "My List", icon: List },
+  { href: "/", label: "My List", icon: List },
   { href: "/add", label: "Add New", icon: Plus },
   { href: "/recommend", label: "Surprise Me", icon: Sparkles },
 ];

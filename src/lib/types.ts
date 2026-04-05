@@ -36,3 +36,10 @@ export const STATUS_LABELS: Record<WatchStatus, string> = {
   "plan-to-watch": "Plan to Watch",
   dropped: "Dropped",
 };
+
+export const STATUS_OPTIONS: { value: WatchStatus; label: string }[] = [
+  { value: "plan-to-watch", label: "Plan to Watch" },
+  { value: "watching", label: "Watching" },
+  { value: "completed", label: "Completed" },
+  { value: "dropped", label: "Dropped" },
+];
