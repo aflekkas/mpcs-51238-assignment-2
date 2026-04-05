@@ -78,12 +78,12 @@ export function AddItemForm() {
   // Debounced search on title change
   useEffect(() => {
     if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
-    if (!tmdbEnabled || title.trim().length < 2) {
+    if (!tmdbEnabled || title.trim().length < 3) {
       setSearchResults([]);
       setShowResults(false);
       return;
     }
-    searchTimeoutRef.current = setTimeout(() => doSearch(title), 500);
+    searchTimeoutRef.current = setTimeout(() => doSearch(title), 700);
     return () => {
       if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
     };
