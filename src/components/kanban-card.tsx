@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { memo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Draggable } from "@hello-pangea/dnd";
-import { motion } from "motion/react";
 import { GripVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { type WatchItem } from "@/lib/types";
@@ -15,30 +14,24 @@ interface KanbanCardProps {
   index: number;
 }
 
-export function KanbanCard({ item, index }: KanbanCardProps) {
+export const KanbanCard = memo(function KanbanCard({
+  item,
+  index,
+}: KanbanCardProps) {
   const [imgError, setImgError] = useState(false);
 
   return (
     <Draggable draggableId={item.id} index={index}>
       {(provided, snapshot) => (
-        <motion.div
+        <div
           ref={provided.innerRef}
           {...provided.draggableProps}
-          initial={{ opacity: 0, x: -10 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{
-            delay: index * 0.04,
-            type: "spring",
-            stiffness: 300,
-            damping: 25,
-          }}
           className={cn(
-            "flex items-center gap-3 rounded-md bg-white/5 p-2 transition-colors hover:bg-white/10",
-            snapshot.isDragging && "bg-white/10 shadow-xl shadow-black/50 ring-1 ring-netflix-red/30 scale-105"
+            "flex items-center gap-3 rounded-md bg-white/5 p-2 hover:bg-white/10",
+            snapshot.isDragging &&
+              "bg-white/10 shadow-xl shadow-black/50 ring-1 ring-netflix-red/30"
           )}
-          style={{
-            ...provided.draggableProps.style,
-          }}
+          style={provided.draggableProps.style}
         >
           {/* Drag handle */}
           <div
@@ -49,7 +42,10 @@ export function KanbanCard({ item, index }: KanbanCardProps) {
           </div>
 
           {/* Clickable content */}
-          <Link href={`/${item.slug}`} className="flex items-center gap-3 flex-1 min-w-0">
+          <Link
+            href={`/${item.slug}`}
+            className="flex items-center gap-3 flex-1 min-w-0"
+          >
             {/* Poster thumbnail */}
             <div
               className="relative shrink-0 w-10 aspect-[2/3] rounded-sm overflow-hidden"
@@ -69,15 +65,19 @@ export function KanbanCard({ item, index }: KanbanCardProps) {
 
             {/* Info */}
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-white truncate">{item.title}</p>
+              <p className="text-sm font-medium text-white truncate">
+                {item.title}
+              </p>
               <span className="text-xs text-muted-foreground">
                 {item.year} / {item.genre}
               </span>
-              {item.rating && <StarRating value={item.rating} size="sm" readonly />}
+              {item.rating && (
+                <StarRating value={item.rating} size="sm" readonly />
+              )}
             </div>
           </Link>
-        </motion.div>
+        </div>
       )}
     </Draggable>
   );
-}
+});
