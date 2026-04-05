@@ -31,6 +31,7 @@ export default function RecommendPage() {
           description="Mark items as favorites from their detail page to see them here."
         >
           <Button
+            nativeButton={false}
             variant="outline"
             className="border-white/20 text-white hover:bg-white/10"
             render={<Link href="/watchlist" />}

@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { type WatchItem } from "@/lib/types";
 import { StatusBadge } from "./status-badge";
@@ -13,6 +15,8 @@ interface PosterCardProps {
 }
 
 export function PosterCard({ item, size = "md", className }: PosterCardProps) {
+  const [imgError, setImgError] = useState(false);
+
   const sizeClasses = {
     sm: "w-32 sm:w-36",
     md: "w-40 sm:w-48",
@@ -27,11 +31,23 @@ export function PosterCard({ item, size = "md", className }: PosterCardProps) {
           sizeClasses[size]
         )}
       >
-        {/* Gradient poster */}
+        {/* Gradient fallback */}
         <div
           className="absolute inset-0"
           style={{ background: item.posterGradient }}
         />
+
+        {/* Poster image */}
+        {item.posterUrl && !imgError && (
+          <Image
+            src={item.posterUrl}
+            alt={item.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 640px) 160px, 256px"
+            onError={() => setImgError(true)}
+          />
+        )}
 
         {/* Status badge */}
         <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">

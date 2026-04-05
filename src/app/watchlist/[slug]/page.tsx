@@ -26,6 +26,7 @@ export default function WatchlistDetailPage({
           description="This item doesn't exist in your watchlist."
         >
           <Button
+            nativeButton={false}
             variant="outline"
             className="border-white/20 text-white hover:bg-white/10"
             render={<Link href="/watchlist" />}

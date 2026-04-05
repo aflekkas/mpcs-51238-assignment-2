@@ -55,6 +55,7 @@ export default function WatchlistPage() {
             </p>
           </div>
           <Button
+            nativeButton={false}
             className="bg-netflix-red hover:bg-netflix-red/80 text-white font-semibold gap-2 w-fit"
             render={<Link href="/add" />}
           >

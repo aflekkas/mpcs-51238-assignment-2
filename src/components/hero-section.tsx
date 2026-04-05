@@ -50,6 +50,7 @@ export function HeroSection({ item }: HeroSectionProps) {
 
           <div className="flex gap-3 mt-2">
             <Button
+              nativeButton={false}
               className="bg-netflix-red hover:bg-netflix-red/80 text-white font-semibold gap-2"
               render={<Link href={`/watchlist/${item.slug}`} />}
             >
@@ -57,6 +58,7 @@ export function HeroSection({ item }: HeroSectionProps) {
               View Details
             </Button>
             <Button
+              nativeButton={false}
               variant="outline"
               className="border-white/20 text-white hover:bg-white/10 gap-2"
               render={<Link href="/add" />}

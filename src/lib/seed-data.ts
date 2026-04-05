@@ -13,6 +13,7 @@ export const seedData: WatchItem[] = [
     review:
       "A masterpiece of superhero cinema. Heath Ledger's Joker is unforgettable.",
     favorite: true,
+    posterUrl: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911BTUgMe1R4Gg.jpg",
     posterGradient:
       "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)",
     addedAt: "2026-03-20T10:00:00.000Z",
@@ -29,6 +30,7 @@ export const seedData: WatchItem[] = [
     review:
       "The transformation of Walter White is television at its finest.",
     favorite: true,
+    posterUrl: "https://image.tmdb.org/t/p/w500/ztkUQFLlC19CCMYHW73UsJLRNiy.jpg",
     posterGradient:
       "linear-gradient(135deg, #2d1b00 0%, #4a3728 50%, #1b4332 100%)",
     addedAt: "2026-03-18T10:00:00.000Z",
@@ -45,6 +47,7 @@ export const seedData: WatchItem[] = [
     review:
       "Visually stunning. Villeneuve delivers an epic continuation.",
     favorite: true,
+    posterUrl: "https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
     posterGradient:
       "linear-gradient(135deg, #b8860b 0%, #8b6914 40%, #2c1810 100%)",
     addedAt: "2026-03-25T10:00:00.000Z",
@@ -60,6 +63,7 @@ export const seedData: WatchItem[] = [
     rating: 4,
     review: "Gripping workplace thriller. Season 2 is even better.",
     favorite: false,
+    posterUrl: "https://image.tmdb.org/t/p/w500/pBc4hSvZTNZagYwksUF5NG2nKxl.jpg",
     posterGradient:
       "linear-gradient(135deg, #e8e8e8 0%, #a0c4e8 30%, #1a3a5c 100%)",
     addedAt: "2026-04-01T10:00:00.000Z",
@@ -75,6 +79,7 @@ export const seedData: WatchItem[] = [
     rating: null,
     review: "",
     favorite: false,
+    posterUrl: "https://image.tmdb.org/t/p/w500/ob4aS2GIG0r8qwwGrAFKAho9DhN.jpg",
     posterGradient:
       "linear-gradient(135deg, #f5e6d3 0%, #e8c170 40%, #2e7d32 100%)",
     addedAt: "2026-04-02T10:00:00.000Z",
@@ -90,6 +95,7 @@ export const seedData: WatchItem[] = [
     rating: 5,
     review: "Nolan's magnum opus. Cillian Murphy is phenomenal.",
     favorite: true,
+    posterUrl: "https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg",
     posterGradient:
       "linear-gradient(135deg, #ff6b35 0%, #d32f2f 40%, #1a1a1a 100%)",
     addedAt: "2026-03-15T10:00:00.000Z",
@@ -105,6 +111,7 @@ export const seedData: WatchItem[] = [
     rating: null,
     review: "",
     favorite: false,
+    posterUrl: "https://image.tmdb.org/t/p/w500/sHFlYpJHbhFnXyMbgvy3MeTpMwH.jpg",
     posterGradient:
       "linear-gradient(135deg, #3e2723 0%, #bf360c 50%, #ff8f00 100%)",
     addedAt: "2026-04-03T10:00:00.000Z",
@@ -121,6 +128,7 @@ export const seedData: WatchItem[] = [
     review:
       "A beautiful, chaotic love letter to family and the multiverse.",
     favorite: false,
+    posterUrl: "https://image.tmdb.org/t/p/w500/w3LxiVYdWWRvEVdn5RYq6jIqkb1.jpg",
     posterGradient:
       "linear-gradient(135deg, #4a148c 0%, #e91e63 50%, #00bcd4 100%)",
     addedAt: "2026-03-22T10:00:00.000Z",
@@ -136,6 +144,7 @@ export const seedData: WatchItem[] = [
     rating: null,
     review: "",
     favorite: false,
+    posterUrl: "https://image.tmdb.org/t/p/w500/7O4iVfOMQmdCSxhOg1WnzG1AgmX.jpg",
     posterGradient:
       "linear-gradient(135deg, #1b0a00 0%, #8d1c1c 50%, #c9a959 100%)",
     addedAt: "2026-04-04T10:00:00.000Z",
@@ -152,6 +161,7 @@ export const seedData: WatchItem[] = [
     review:
       "Bong Joon-ho crafted something truly special. Every scene matters.",
     favorite: true,
+    posterUrl: "https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg",
     posterGradient:
       "linear-gradient(135deg, #263238 0%, #37474f 40%, #4caf50 100%)",
     addedAt: "2026-03-10T10:00:00.000Z",
@@ -167,6 +177,7 @@ export const seedData: WatchItem[] = [
     rating: 3,
     review: "Great start but lost interest midway through season 2.",
     favorite: false,
+    posterUrl: "https://image.tmdb.org/t/p/w500/uKvVjHNqB5VmOrdxqAt2F7J78ED.jpg",
     posterGradient:
       "linear-gradient(135deg, #1b3a1b 0%, #4a6741 50%, #8d9e83 100%)",
     addedAt: "2026-03-28T10:00:00.000Z",
@@ -183,6 +194,7 @@ export const seedData: WatchItem[] = [
     review:
       "An emotional journey through space and time. Hans Zimmer's score is transcendent.",
     favorite: true,
+    posterUrl: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
     posterGradient:
       "linear-gradient(135deg, #0d0d2b 0%, #1a237e 40%, #ff8f00 100%)",
     addedAt: "2026-03-12T10:00:00.000Z",
