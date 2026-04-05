@@ -15,6 +15,10 @@ Assignment spec is in `docs/Week 2 Assignment 2.pdf`.
 - `bun run lint` - run ESLint
 - `bunx shadcn@latest add <component>` - add a shadcn/ui component
 
+## Playwright MCP
+
+Configured in `.mcp.json` at the project root. Use the Playwright MCP tools (browser_navigate, browser_snapshot, browser_click, etc.) for verifying the app visually during development.
+
 ## Architecture
 
 - **App Router** with `src/` directory structure
