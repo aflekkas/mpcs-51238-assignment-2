@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { WatchlistProvider } from "@/lib/watchlist-context";
 import { Navbar } from "@/components/navbar";
+import { SplashScreen } from "@/components/splash-screen";
 import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
@@ -36,9 +37,11 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <ThemeProvider>
           <WatchlistProvider>
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Toaster />
+            <SplashScreen>
+              <Navbar />
+              <main className="flex-1">{children}</main>
+              <Toaster />
+            </SplashScreen>
           </WatchlistProvider>
         </ThemeProvider>
       </body>
