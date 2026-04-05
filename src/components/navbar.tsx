@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Film, Menu, Plus, Sparkles, List } from "lucide-react";
+import { Menu, Plus, Sparkles, List, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,10 +15,10 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useState } from "react";
 
 const navLinks = [
-  { href: "/", label: "Home", icon: Film },
-  { href: "/watchlist", label: "Watchlist", icon: List },
-  { href: "/add", label: "Add", icon: Plus },
-  { href: "/recommend", label: "Recommend", icon: Sparkles },
+  { href: "/", label: "Home", icon: Home },
+  { href: "/watchlist", label: "My List", icon: List },
+  { href: "/add", label: "Add New", icon: Plus },
+  { href: "/recommend", label: "Surprise Me", icon: Sparkles },
 ];
 
 export function Navbar() {
@@ -27,11 +27,11 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-netflix-dark/95 backdrop-blur-sm border-b border-white/5">
+    <nav className="sticky top-0 z-50 w-full bg-gradient-to-b from-netflix-dark via-netflix-dark/95 to-netflix-dark/80 backdrop-blur-sm border-b border-white/5">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-bold tracking-wider text-netflix-red">
-            WATCHLIST
+        <Link href="/" className="flex items-center group">
+          <span className="font-logo text-2xl sm:text-3xl tracking-wide text-netflix-red drop-shadow-[0_0_12px_rgba(229,9,20,0.4)] group-hover:drop-shadow-[0_0_18px_rgba(229,9,20,0.6)] transition-all">
+            CANTFINDAFLIX
           </span>
         </Link>
 
