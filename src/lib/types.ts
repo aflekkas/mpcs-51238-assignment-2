@@ -11,7 +11,6 @@ export interface WatchItem {
   status: WatchStatus;
   rating: number | null;
   review: string;
-  favorite: boolean;
   posterUrl?: string;
   posterGradient: string;
   addedAt: string;

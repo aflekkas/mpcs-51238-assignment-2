@@ -12,7 +12,6 @@ export const seedData: WatchItem[] = [
     rating: 5,
     review:
       "A masterpiece of superhero cinema. Heath Ledger's Joker is unforgettable.",
-    favorite: true,
     posterUrl: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
     posterGradient:
       "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)",
@@ -29,7 +28,6 @@ export const seedData: WatchItem[] = [
     rating: 5,
     review:
       "The transformation of Walter White is television at its finest.",
-    favorite: true,
     posterUrl: "https://image.tmdb.org/t/p/w500/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg",
     posterGradient:
       "linear-gradient(135deg, #2d1b00 0%, #4a3728 50%, #1b4332 100%)",
@@ -46,7 +44,6 @@ export const seedData: WatchItem[] = [
     rating: 4,
     review:
       "Visually stunning. Villeneuve delivers an epic continuation.",
-    favorite: true,
     posterUrl: "https://image.tmdb.org/t/p/w500/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg",
     posterGradient:
       "linear-gradient(135deg, #b8860b 0%, #8b6914 40%, #2c1810 100%)",
@@ -62,7 +59,6 @@ export const seedData: WatchItem[] = [
     status: "watching",
     rating: 4,
     review: "Gripping workplace thriller. Season 2 is even better.",
-    favorite: false,
     posterUrl: "https://image.tmdb.org/t/p/w500/pPHpeI2X1qEd1CS1SeyrdhZ4qnT.jpg",
     posterGradient:
       "linear-gradient(135deg, #e8e8e8 0%, #a0c4e8 30%, #1a3a5c 100%)",
@@ -78,7 +74,6 @@ export const seedData: WatchItem[] = [
     status: "watching",
     rating: null,
     review: "",
-    favorite: false,
     posterUrl: "https://image.tmdb.org/t/p/w500/gbSaK9v1CbcYH1ISgbM7XObD2dW.jpg",
     posterGradient:
       "linear-gradient(135deg, #f5e6d3 0%, #e8c170 40%, #2e7d32 100%)",
@@ -94,7 +89,6 @@ export const seedData: WatchItem[] = [
     status: "completed",
     rating: 5,
     review: "Nolan's magnum opus. Cillian Murphy is phenomenal.",
-    favorite: true,
     posterUrl: "https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg",
     posterGradient:
       "linear-gradient(135deg, #ff6b35 0%, #d32f2f 40%, #1a1a1a 100%)",
@@ -110,7 +104,6 @@ export const seedData: WatchItem[] = [
     status: "plan-to-watch",
     rating: null,
     review: "",
-    favorite: false,
     posterUrl: "https://image.tmdb.org/t/p/w500/eKfVzzEazSIjJMrw9ADa2x8ksLz.jpg",
     posterGradient:
       "linear-gradient(135deg, #3e2723 0%, #bf360c 50%, #ff8f00 100%)",
@@ -127,7 +120,6 @@ export const seedData: WatchItem[] = [
     rating: 4,
     review:
       "A beautiful, chaotic love letter to family and the multiverse.",
-    favorite: false,
     posterUrl: "https://image.tmdb.org/t/p/w500/u68AjlvlutfEIcpmbYpKcdi09ut.jpg",
     posterGradient:
       "linear-gradient(135deg, #4a148c 0%, #e91e63 50%, #00bcd4 100%)",
@@ -143,7 +135,6 @@ export const seedData: WatchItem[] = [
     status: "plan-to-watch",
     rating: null,
     review: "",
-    favorite: false,
     posterUrl: "https://image.tmdb.org/t/p/w500/7O4iVfOMQmdCSxhOg1WnzG1AgYT.jpg",
     posterGradient:
       "linear-gradient(135deg, #1b0a00 0%, #8d1c1c 50%, #c9a959 100%)",
@@ -160,7 +151,6 @@ export const seedData: WatchItem[] = [
     rating: 5,
     review:
       "Bong Joon-ho crafted something truly special. Every scene matters.",
-    favorite: true,
     posterUrl: "https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg",
     posterGradient:
       "linear-gradient(135deg, #263238 0%, #37474f 40%, #4caf50 100%)",
@@ -176,7 +166,6 @@ export const seedData: WatchItem[] = [
     status: "dropped",
     rating: 3,
     review: "Great start but lost interest midway through season 2.",
-    favorite: false,
     posterUrl: "https://image.tmdb.org/t/p/w500/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg",
     posterGradient:
       "linear-gradient(135deg, #1b3a1b 0%, #4a6741 50%, #8d9e83 100%)",
@@ -193,7 +182,6 @@ export const seedData: WatchItem[] = [
     rating: 5,
     review:
       "An emotional journey through space and time. Hans Zimmer's score is transcendent.",
-    favorite: true,
     posterUrl: "https://image.tmdb.org/t/p/w500/yQvGrMoipbRoddT0ZR8tPoR7NfX.jpg",
     posterGradient:
       "linear-gradient(135deg, #0d0d2b 0%, #1a237e 40%, #ff8f00 100%)",

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { ArrowLeft, Heart } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,7 @@ import { StatusSelect } from "./status-select";
 import { StarRating } from "./star-rating";
 import { StatusBadge } from "./status-badge";
 import { DeleteConfirmDialog } from "./delete-confirm-dialog";
-import { cn } from "@/lib/utils";
+
 
 interface ItemDetailProps {
   item: WatchItem;
@@ -38,11 +38,6 @@ export function ItemDetail({ item }: ItemDetailProps) {
     updateItem(item.id, { rating: newRating });
     const msgs = ["Great taste!", "Noted!", "Fair enough!", "Solid pick!", "Interesting..."];
     toast.success(newRating ? `${"★".repeat(newRating)}${"☆".repeat(5 - newRating)} ${msgs[newRating - 1]}` : "Rating cleared");
-  };
-
-  const handleFavoriteToggle = () => {
-    updateItem(item.id, { favorite: !item.favorite });
-    toast.success(item.favorite ? "Removed from the VIP list" : "Added to the VIP list!");
   };
 
   const handleReviewSave = () => {
@@ -106,28 +101,9 @@ export function ItemDetail({ item }: ItemDetailProps) {
               <MediaMetadata item={item} className="text-sm text-muted-foreground" />
             </div>
 
-            <div className="flex items-start justify-between gap-4">
-              <h1 className="text-3xl sm:text-4xl font-bold text-white">
-                {item.title}
-              </h1>
-              <motion.button
-                onClick={handleFavoriteToggle}
-                className="shrink-0 mt-1 p-2 rounded-full hover:bg-white/10 transition-colors"
-                title={item.favorite ? "Remove from recommendations" : "Add to recommendations"}
-                whileTap={{ scale: 0.8 }}
-                animate={item.favorite ? { scale: [1, 1.3, 1] } : {}}
-                transition={{ duration: 0.3 }}
-              >
-                <Heart
-                  className={cn(
-                    "h-6 w-6 transition-colors",
-                    item.favorite
-                      ? "fill-netflix-red text-netflix-red"
-                      : "text-muted-foreground hover:text-white"
-                  )}
-                />
-              </motion.button>
-            </div>
+            <h1 className="text-3xl sm:text-4xl font-bold text-white">
+              {item.title}
+            </h1>
           </motion.div>
 
           {/* Rating */}

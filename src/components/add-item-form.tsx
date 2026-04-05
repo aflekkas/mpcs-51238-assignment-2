@@ -18,7 +18,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Switch } from "@/components/ui/switch";
 import { useWatchlist } from "@/lib/watchlist-context";
 import { GENRES, type MediaType, type WatchStatus } from "@/lib/types";
 import { POSTER_GRADIENTS } from "@/lib/constants";
@@ -37,7 +36,6 @@ export function AddItemForm() {
   const [status, setStatus] = useState<WatchStatus>("plan-to-watch");
   const [rating, setRating] = useState<number | null>(null);
   const [review, setReview] = useState("");
-  const [favorite, setFavorite] = useState(false);
   const [posterUrl, setPosterUrl] = useState("");
 
   // TMDB search state
@@ -128,7 +126,6 @@ export function AddItemForm() {
       status,
       rating,
       review: review.trim(),
-      favorite,
       posterUrl: posterUrl.trim() || undefined,
       posterGradient: randomGradient,
     });
@@ -303,17 +300,6 @@ export function AddItemForm() {
         <p className="text-xs text-muted-foreground">
           Auto-filled from search, or paste your own URL
         </p>
-      </div>
-
-      {/* Favorite */}
-      <div className="flex items-center gap-3">
-        <Switch
-          checked={favorite}
-          onCheckedChange={setFavorite}
-        />
-        <Label className="cursor-pointer font-normal">
-          Add to recommendations
-        </Label>
       </div>
 
       {/* Submit */}

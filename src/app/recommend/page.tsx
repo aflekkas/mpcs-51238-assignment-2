@@ -61,9 +61,6 @@ function getTopGenres(items: WatchItem[]) {
 
 function scoreCandidates(items: WatchItem[], candidates: WatchItem[]) {
   const genreScores = getGenreScores(items);
-  const favoriteGenres = new Set(
-    items.filter((i) => i.favorite).map((i) => i.genre)
-  );
 
   return candidates
     .map((item) => {
@@ -71,24 +68,12 @@ function scoreCandidates(items: WatchItem[], candidates: WatchItem[]) {
       if (genreScores[item.genre]) {
         score += genreScores[item.genre] * 20;
       }
-      if (favoriteGenres.has(item.genre)) {
-        score += 15;
-      }
-      if (item.favorite) {
-        score += 10;
-      }
       return { item, score, matchPct: Math.min(99, Math.round(score)) };
     })
     .sort((a, b) => b.score - a.score);
 }
 
 function getMatchReason(item: WatchItem, items: WatchItem[]) {
-  const matchedFavorites = items.filter(
-    (i) =>
-      i.genre === item.genre &&
-      i.favorite &&
-      (i.status === "completed" || i.status === "watching")
-  );
   const highRated = items.filter(
     (i) =>
       i.genre === item.genre &&
@@ -97,10 +82,6 @@ function getMatchReason(item: WatchItem, items: WatchItem[]) {
       (i.status === "completed" || i.status === "watching")
   );
 
-  if (matchedFavorites.length > 0) {
-    const titles = matchedFavorites.slice(0, 2).map((i) => i.title);
-    return `You loved ${titles.join(" and ")}`;
-  }
   if (highRated.length > 0) {
     return `You rated ${item.genre} titles highly`;
   }
