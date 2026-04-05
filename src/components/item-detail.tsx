@@ -6,6 +6,7 @@ import Image from "next/image";
 import { toast } from "sonner";
 import { ArrowLeft, Heart } from "lucide-react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -64,17 +65,29 @@ export function ItemDetail({ item }: ItemDetailProps) {
   return (
     <div className="flex flex-col gap-8">
       {/* Back button */}
-      <Link
-        href="/watchlist"
-        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-white transition-colors w-fit"
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.3 }}
       >
-        <ArrowLeft className="h-4 w-4" />
-        Back to Watchlist
-      </Link>
+        <Link
+          href="/watchlist"
+          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-white transition-colors w-fit"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Watchlist
+        </Link>
+      </motion.div>
 
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Poster */}
-        <div className="shrink-0">
+        <motion.div
+          className="shrink-0"
+          initial={{ opacity: 0, x: -40, rotateY: -15 }}
+          animate={{ opacity: 1, x: 0, rotateY: 0 }}
+          transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
+          style={{ transformPerspective: 800 }}
+        >
           <div
             className="relative w-full max-w-xs mx-auto lg:mx-0 lg:w-64 aspect-[2/3] rounded-md overflow-hidden"
             style={{ background: item.posterGradient }}
@@ -90,11 +103,16 @@ export function ItemDetail({ item }: ItemDetailProps) {
               />
             )}
           </div>
-        </div>
+        </motion.div>
 
         {/* Details */}
         <div className="flex-1 flex flex-col gap-6">
-          <div className="flex flex-col gap-2">
+          <motion.div
+            className="flex flex-col gap-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.4 }}
+          >
             <div className="flex items-center gap-3 flex-wrap">
               <StatusBadge status={item.status} />
               <span className="text-sm text-muted-foreground">
@@ -106,10 +124,13 @@ export function ItemDetail({ item }: ItemDetailProps) {
               <h1 className="text-3xl sm:text-4xl font-bold text-white">
                 {item.title}
               </h1>
-              <button
+              <motion.button
                 onClick={handleFavoriteToggle}
                 className="shrink-0 mt-1 p-2 rounded-full hover:bg-white/10 transition-colors"
                 title={item.favorite ? "Remove from recommendations" : "Add to recommendations"}
+                whileTap={{ scale: 0.8 }}
+                animate={item.favorite ? { scale: [1, 1.3, 1] } : {}}
+                transition={{ duration: 0.3 }}
               >
                 <Heart
                   className={cn(
@@ -119,22 +140,32 @@ export function ItemDetail({ item }: ItemDetailProps) {
                       : "text-muted-foreground hover:text-white"
                   )}
                 />
-              </button>
+              </motion.button>
             </div>
-          </div>
+          </motion.div>
 
           {/* Rating */}
-          <div className="flex flex-col gap-2">
+          <motion.div
+            className="flex flex-col gap-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25, duration: 0.4 }}
+          >
             <Label className="text-muted-foreground">Rating</Label>
             <StarRating
               value={item.rating}
               onChange={handleRatingChange}
               size="md"
             />
-          </div>
+          </motion.div>
 
           {/* Status */}
-          <div className="flex flex-col gap-2">
+          <motion.div
+            className="flex flex-col gap-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35, duration: 0.4 }}
+          >
             <Label className="text-muted-foreground">Status</Label>
             <Select value={item.status} onValueChange={(val) => val && handleStatusChange(val)}>
               <SelectTrigger className="w-48 bg-white/5">
@@ -147,10 +178,15 @@ export function ItemDetail({ item }: ItemDetailProps) {
                 <SelectItem value="dropped">Dropped</SelectItem>
               </SelectContent>
             </Select>
-          </div>
+          </motion.div>
 
           {/* Review */}
-          <div className="flex flex-col gap-2">
+          <motion.div
+            className="flex flex-col gap-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45, duration: 0.4 }}
+          >
             <div className="flex items-center justify-between">
               <Label className="text-muted-foreground">Review</Label>
               {!isEditingReview && (
@@ -165,46 +201,66 @@ export function ItemDetail({ item }: ItemDetailProps) {
                 </button>
               )}
             </div>
-            {isEditingReview ? (
-              <div className="flex flex-col gap-2">
-                <Textarea
-                  value={reviewDraft}
-                  onChange={(e) => setReviewDraft(e.target.value)}
-                  rows={4}
-                  className="bg-white/5 resize-none"
-                  placeholder="What did you think?"
-                />
-                <div className="flex gap-2">
-                  <Button
-                    size="sm"
-                    onClick={handleReviewSave}
-                    className="bg-netflix-red hover:bg-netflix-red/80 text-white"
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => setIsEditingReview(false)}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </div>
-            ) : (
-              <p className="text-sm text-white/80">
-                {item.review || "No review yet."}
-              </p>
-            )}
-          </div>
+            <AnimatePresence mode="wait">
+              {isEditingReview ? (
+                <motion.div
+                  key="editing"
+                  className="flex flex-col gap-2"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Textarea
+                    value={reviewDraft}
+                    onChange={(e) => setReviewDraft(e.target.value)}
+                    rows={4}
+                    className="bg-white/5 resize-none"
+                    placeholder="What did you think?"
+                  />
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      onClick={handleReviewSave}
+                      className="bg-netflix-red hover:bg-netflix-red/80 text-white"
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => setIsEditingReview(false)}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </motion.div>
+              ) : (
+                <motion.p
+                  key="display"
+                  className="text-sm text-white/80"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  {item.review || "No review yet."}
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </motion.div>
 
           {/* Added date + delete */}
-          <div className="flex items-center justify-between pt-4 border-t border-white/10">
+          <motion.div
+            className="flex items-center justify-between pt-4 border-t border-white/10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.55, duration: 0.4 }}
+          >
             <span className="text-xs text-muted-foreground">
               Added {new Date(item.addedAt).toLocaleDateString()}
             </span>
             <DeleteConfirmDialog title={item.title} onConfirm={handleDelete} />
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

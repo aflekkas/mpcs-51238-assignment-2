@@ -3,6 +3,10 @@
     "playwright": {
       "command": "npx",
       "args": ["@playwright/mcp@latest"]
+    },
+    "magicui": {
+      "command": "npx",
+      "args": ["-y", "magicui-mcp"]
     }
   }
 }

@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { toast } from "sonner";
+import { Search, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,6 +21,7 @@ import { Switch } from "@/components/ui/switch";
 import { useWatchlist } from "@/lib/watchlist-context";
 import { GENRES, type MediaType, type WatchStatus } from "@/lib/types";
 import { StarRating } from "./star-rating";
+import { searchTmdb, isTmdbConfigured, type TmdbSearchResult } from "@/lib/tmdb";
 
 const POSTER_GRADIENTS = [
   "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
@@ -46,6 +49,63 @@ export function AddItemForm() {
   const [review, setReview] = useState("");
   const [favorite, setFavorite] = useState(false);
   const [posterUrl, setPosterUrl] = useState("");
+
+  // TMDB search state
+  const [searchResults, setSearchResults] = useState<TmdbSearchResult[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
+  const tmdbEnabled = isTmdbConfigured();
+
+  const doSearch = useCallback(
+    async (query: string) => {
+      if (!tmdbEnabled || query.trim().length < 2) {
+        setSearchResults([]);
+        setShowResults(false);
+        return;
+      }
+
+      setIsSearching(true);
+      const results = await searchTmdb(query, mediaType);
+      setSearchResults(results);
+      setShowResults(results.length > 0);
+      setIsSearching(false);
+    },
+    [mediaType, tmdbEnabled]
+  );
+
+  // Debounced search on title change
+  useEffect(() => {
+    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+    if (!tmdbEnabled || title.trim().length < 2) {
+      setSearchResults([]);
+      setShowResults(false);
+      return;
+    }
+    searchTimeoutRef.current = setTimeout(() => doSearch(title), 500);
+    return () => {
+      if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
+    };
+  }, [title, doSearch, tmdbEnabled]);
+
+  // Close results when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (resultsRef.current && !resultsRef.current.contains(e.target as Node)) {
+        setShowResults(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const selectResult = (result: TmdbSearchResult) => {
+    setTitle(result.title);
+    if (result.posterUrl) setPosterUrl(result.posterUrl);
+    if (result.year) setYear(result.year.toString());
+    setShowResults(false);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,16 +148,69 @@ export function AddItemForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-      {/* Title */}
-      <div className="flex flex-col gap-2">
+      {/* Title with TMDB search */}
+      <div className="relative flex flex-col gap-2" ref={resultsRef}>
         <Label htmlFor="title">Title</Label>
-        <Input
-          id="title"
-          placeholder="e.g. The Dark Knight"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="bg-white/5"
-        />
+        <div className="relative">
+          <Input
+            id="title"
+            placeholder="e.g. The Dark Knight"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            onFocus={() => searchResults.length > 0 && setShowResults(true)}
+            className="bg-white/5"
+          />
+          {tmdbEnabled && (
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+              {isSearching ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Search className="h-4 w-4" />
+              )}
+            </div>
+          )}
+        </div>
+        {tmdbEnabled && (
+          <p className="text-xs text-muted-foreground">
+            Start typing to search TMDB for posters
+          </p>
+        )}
+
+        {/* Search results dropdown */}
+        {showResults && searchResults.length > 0 && (
+          <div className="absolute top-full left-0 right-0 z-50 mt-1 rounded-md border border-white/10 bg-neutral-900 shadow-xl max-h-80 overflow-y-auto">
+            {searchResults.map((result) => (
+              <button
+                key={result.id}
+                type="button"
+                onClick={() => selectResult(result)}
+                className="flex items-center gap-3 w-full px-3 py-2 hover:bg-white/10 transition-colors text-left"
+              >
+                {result.posterUrl ? (
+                  <Image
+                    src={result.posterUrl}
+                    alt={result.title}
+                    width={40}
+                    height={60}
+                    className="rounded-sm object-cover shrink-0"
+                  />
+                ) : (
+                  <div className="w-10 h-15 rounded-sm bg-white/10 shrink-0" />
+                )}
+                <div className="flex flex-col gap-0.5 min-w-0">
+                  <span className="text-sm font-medium text-white truncate">
+                    {result.title}
+                  </span>
+                  {result.year && (
+                    <span className="text-xs text-muted-foreground">
+                      {result.year}
+                    </span>
+                  )}
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Media Type */}
@@ -196,8 +309,24 @@ export function AddItemForm() {
           onChange={(e) => setPosterUrl(e.target.value)}
           className="bg-white/5"
         />
+        {posterUrl && (
+          <div className="mt-2 w-20 aspect-[2/3] rounded-sm overflow-hidden bg-white/5">
+            <Image
+              src={posterUrl}
+              alt="Poster preview"
+              width={80}
+              height={120}
+              className="object-cover w-full h-full"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = "none";
+              }}
+            />
+          </div>
+        )}
         <p className="text-xs text-muted-foreground">
-          Paste a direct image URL for the poster (optional)
+          {tmdbEnabled
+            ? "Auto-filled from TMDB search, or paste your own URL"
+            : "Paste a direct image URL for the poster (optional)"}
         </p>
       </div>
 
