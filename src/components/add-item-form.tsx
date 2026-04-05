@@ -95,25 +95,25 @@ export function AddItemForm() {
     if (result.year) setYear(result.year.toString());
     if (result.genre) setGenre(result.genre);
     setShowResults(false);
-    toast.success(`Filled in details for "${result.title}"`);
+    toast.success(`Auto-filled "${result.title}" -- magic!`);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!title.trim()) {
-      toast.error("Title is required");
+      toast.error("Hold up! Every masterpiece needs a title.");
       return;
     }
 
     if (!genre) {
-      toast.error("Genre is required");
+      toast.error("Pick a genre! We don't judge.");
       return;
     }
 
     const yearNum = parseInt(year, 10);
     if (!year || isNaN(yearNum) || yearNum < 1900 || yearNum > 2030) {
-      toast.error("Enter a valid year (1900-2030)");
+      toast.error("That year doesn't look right...");
       return;
     }
 
@@ -133,7 +133,7 @@ export function AddItemForm() {
       posterGradient: randomGradient,
     });
 
-    toast.success(`Added "${newItem.title}" to your watchlist`);
+    toast.success(`"${newItem.title}" just joined the lineup!`);
     router.push(`/${newItem.slug}`);
   };
 
