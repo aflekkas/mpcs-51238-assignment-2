@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Draggable } from "@hello-pangea/dnd";
-import { motion } from "motion/react";
 import { GripVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { type WatchItem } from "@/lib/types";
@@ -25,20 +24,20 @@ export function KanbanCard({ item, index }: KanbanCardProps) {
           ref={provided.innerRef}
           {...provided.draggableProps}
           className={cn(
-            "rounded-md bg-white/5 transition-colors hover:bg-white/10",
+            "flex items-center gap-3 rounded-md bg-white/5 p-2 transition-colors hover:bg-white/10",
             snapshot.isDragging && "bg-white/10 shadow-xl shadow-black/50 ring-1 ring-netflix-red/30"
           )}
         >
-          <Link href={`/${item.slug}`} className="flex items-center gap-3 p-2">
-            {/* Drag handle */}
-            <div
-              {...provided.dragHandleProps}
-              className="shrink-0 cursor-grab active:cursor-grabbing text-white/20 hover:text-white/50"
-              onClick={(e) => e.preventDefault()}
-            >
-              <GripVertical className="h-4 w-4" />
-            </div>
+          {/* Drag handle - outside link to avoid offset issues */}
+          <div
+            {...provided.dragHandleProps}
+            className="shrink-0 cursor-grab active:cursor-grabbing text-white/20 hover:text-white/50"
+          >
+            <GripVertical className="h-4 w-4" />
+          </div>
 
+          {/* Clickable content */}
+          <Link href={`/${item.slug}`} className="flex items-center gap-3 flex-1 min-w-0">
             {/* Poster thumbnail */}
             <div
               className="relative shrink-0 w-10 aspect-[2/3] rounded-sm overflow-hidden"

@@ -64,9 +64,7 @@ export default function Home() {
         </BlurFade>
 
         {/* Kanban Board */}
-        <BlurFade delay={0.25} offset={16}>
-          <KanbanBoard search={search} />
-        </BlurFade>
+        <KanbanBoard search={search} />
       </div>
     </div>
   );
