@@ -19,7 +19,7 @@ interface KanbanBoardProps {
 }
 
 export function KanbanBoard({ search }: KanbanBoardProps) {
-  const { items, updateItem } = useWatchlist();
+  const { items, moveItem } = useWatchlist();
 
   const filtered = useMemo(() => {
     if (!search.trim()) return items;
@@ -48,19 +48,30 @@ export function KanbanBoard({ search }: KanbanBoardProps) {
     (result: DropResult) => {
       const { draggableId, destination, source } = result;
       if (!destination) return;
-      if (destination.droppableId === source.droppableId) return;
+
+      // No change if dropped in the same spot
+      if (
+        destination.droppableId === source.droppableId &&
+        destination.index === source.index
+      ) {
+        return;
+      }
 
       const targetStatus = destination.droppableId as WatchStatus;
-      const item = items.find((i) => i.id === draggableId);
+      const isCrossColumn = destination.droppableId !== source.droppableId;
 
-      if (item) {
-        updateItem(draggableId, { status: targetStatus });
-        toast.success(
-          `Moved "${item.title}" to ${STATUS_LABELS[targetStatus]}`
-        );
+      moveItem(draggableId, targetStatus, destination.index);
+
+      if (isCrossColumn) {
+        const item = items.find((i) => i.id === draggableId);
+        if (item) {
+          toast.success(
+            `Moved "${item.title}" to ${STATUS_LABELS[targetStatus]}`
+          );
+        }
       }
     },
-    [items, updateItem]
+    [items, moveItem]
   );
 
   return (

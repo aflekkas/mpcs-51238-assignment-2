@@ -13,7 +13,7 @@ export const seedData: WatchItem[] = [
     review:
       "A masterpiece of superhero cinema. Heath Ledger's Joker is unforgettable.",
     favorite: true,
-    posterUrl: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911BTUgMe1R4Gg.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
     posterGradient:
       "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)",
     addedAt: "2026-03-20T10:00:00.000Z",
@@ -30,7 +30,7 @@ export const seedData: WatchItem[] = [
     review:
       "The transformation of Walter White is television at its finest.",
     favorite: true,
-    posterUrl: "https://image.tmdb.org/t/p/w500/ztkUQFLlC19CCMYHW73UsJLRNiy.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg",
     posterGradient:
       "linear-gradient(135deg, #2d1b00 0%, #4a3728 50%, #1b4332 100%)",
     addedAt: "2026-03-18T10:00:00.000Z",
@@ -63,7 +63,7 @@ export const seedData: WatchItem[] = [
     rating: 4,
     review: "Gripping workplace thriller. Season 2 is even better.",
     favorite: false,
-    posterUrl: "https://image.tmdb.org/t/p/w500/pBc4hSvZTNZagYwksUF5NG2nKxl.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/pPHpeI2X1qEd1CS1SeyrdhZ4qnT.jpg",
     posterGradient:
       "linear-gradient(135deg, #e8e8e8 0%, #a0c4e8 30%, #1a3a5c 100%)",
     addedAt: "2026-04-01T10:00:00.000Z",
@@ -79,7 +79,7 @@ export const seedData: WatchItem[] = [
     rating: null,
     review: "",
     favorite: false,
-    posterUrl: "https://image.tmdb.org/t/p/w500/ob4aS2GIG0r8qwwGrAFKAho9DhN.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/gbSaK9v1CbcYH1ISgbM7XObD2dW.jpg",
     posterGradient:
       "linear-gradient(135deg, #f5e6d3 0%, #e8c170 40%, #2e7d32 100%)",
     addedAt: "2026-04-02T10:00:00.000Z",
@@ -111,7 +111,7 @@ export const seedData: WatchItem[] = [
     rating: null,
     review: "",
     favorite: false,
-    posterUrl: "https://image.tmdb.org/t/p/w500/sHFlYpJHbhFnXyMbgvy3MeTpMwH.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/eKfVzzEazSIjJMrw9ADa2x8ksLz.jpg",
     posterGradient:
       "linear-gradient(135deg, #3e2723 0%, #bf360c 50%, #ff8f00 100%)",
     addedAt: "2026-04-03T10:00:00.000Z",
@@ -128,7 +128,7 @@ export const seedData: WatchItem[] = [
     review:
       "A beautiful, chaotic love letter to family and the multiverse.",
     favorite: false,
-    posterUrl: "https://image.tmdb.org/t/p/w500/w3LxiVYdWWRvEVdn5RYq6jIqkb1.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/u68AjlvlutfEIcpmbYpKcdi09ut.jpg",
     posterGradient:
       "linear-gradient(135deg, #4a148c 0%, #e91e63 50%, #00bcd4 100%)",
     addedAt: "2026-03-22T10:00:00.000Z",
@@ -144,7 +144,7 @@ export const seedData: WatchItem[] = [
     rating: null,
     review: "",
     favorite: false,
-    posterUrl: "https://image.tmdb.org/t/p/w500/7O4iVfOMQmdCSxhOg1WnzG1AgmX.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/7O4iVfOMQmdCSxhOg1WnzG1AgYT.jpg",
     posterGradient:
       "linear-gradient(135deg, #1b0a00 0%, #8d1c1c 50%, #c9a959 100%)",
     addedAt: "2026-04-04T10:00:00.000Z",
@@ -177,7 +177,7 @@ export const seedData: WatchItem[] = [
     rating: 3,
     review: "Great start but lost interest midway through season 2.",
     favorite: false,
-    posterUrl: "https://image.tmdb.org/t/p/w500/uKvVjHNqB5VmOrdxqAt2F7J78ED.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg",
     posterGradient:
       "linear-gradient(135deg, #1b3a1b 0%, #4a6741 50%, #8d9e83 100%)",
     addedAt: "2026-03-28T10:00:00.000Z",
@@ -194,7 +194,7 @@ export const seedData: WatchItem[] = [
     review:
       "An emotional journey through space and time. Hans Zimmer's score is transcendent.",
     favorite: true,
-    posterUrl: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/yQvGrMoipbRoddT0ZR8tPoR7NfX.jpg",
     posterGradient:
       "linear-gradient(135deg, #0d0d2b 0%, #1a237e 40%, #ff8f00 100%)",
     addedAt: "2026-03-12T10:00:00.000Z",

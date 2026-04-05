@@ -8,7 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import { seedData } from "./seed-data";
-import { type WatchItem } from "./types";
+import { type WatchItem, type WatchStatus } from "./types";
 import { slugify } from "./utils";
 
 interface WatchlistContextValue {
@@ -17,6 +17,7 @@ interface WatchlistContextValue {
     item: Omit<WatchItem, "id" | "slug" | "addedAt">
   ) => WatchItem;
   updateItem: (id: string, updates: Partial<WatchItem>) => void;
+  moveItem: (itemId: string, newStatus: WatchStatus, destinationIndex: number) => void;
   deleteItem: (id: string) => void;
   getItemBySlug: (slug: string) => WatchItem | undefined;
 }
@@ -75,12 +76,49 @@ export function WatchlistProvider({ children }: { children: ReactNode }) {
     []
   );
 
+  const moveItem = useCallback(
+    (itemId: string, newStatus: WatchStatus, destinationIndex: number) => {
+      setItems((prev) => {
+        const itemIndex = prev.findIndex((i) => i.id === itemId);
+        if (itemIndex === -1) return prev;
+
+        const item = prev[itemIndex];
+        const updatedItem = { ...item, status: newStatus };
+
+        // Remove the item from its current position
+        const without = [...prev];
+        without.splice(itemIndex, 1);
+
+        // Find items in the destination column (in their array order)
+        const columnItems = without.filter((i) => i.status === newStatus);
+
+        // Determine where in the full array to insert
+        let insertIndex: number;
+        if (columnItems.length === 0 || destinationIndex >= columnItems.length) {
+          // Insert after the last item in this column, or at end if column is empty
+          if (columnItems.length === 0) {
+            insertIndex = without.length;
+          } else {
+            insertIndex = without.indexOf(columnItems[columnItems.length - 1]) + 1;
+          }
+        } else {
+          // Insert before the item at destinationIndex
+          insertIndex = without.indexOf(columnItems[destinationIndex]);
+        }
+
+        without.splice(insertIndex, 0, updatedItem);
+        return without;
+      });
+    },
+    []
+  );
+
   const deleteItem = useCallback((id: string) => {
     setItems((prev) => prev.filter((item) => item.id !== id));
   }, []);
 
   return (
-    <WatchlistContext value={{ items, addItem, updateItem, deleteItem, getItemBySlug }}>
+    <WatchlistContext value={{ items, addItem, updateItem, moveItem, deleteItem, getItemBySlug }}>
       {children}
     </WatchlistContext>
   );
