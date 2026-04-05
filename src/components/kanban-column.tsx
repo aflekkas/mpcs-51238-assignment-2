@@ -1,6 +1,6 @@
 "use client";
 
-import { memo } from "react";
+import React from "react";
 import { Droppable } from "@hello-pangea/dnd";
 import { cn } from "@/lib/utils";
 import { type WatchItem, type WatchStatus, STATUS_LABELS } from "@/lib/types";
@@ -34,7 +34,7 @@ interface KanbanColumnProps {
   items: WatchItem[];
 }
 
-export const KanbanColumn = memo(function KanbanColumn({ status, items }: KanbanColumnProps) {
+function KanbanColumnInner({ status, items }: KanbanColumnProps) {
   const accent = columnAccents[status];
 
   return (
@@ -77,4 +77,6 @@ export const KanbanColumn = memo(function KanbanColumn({ status, items }: Kanban
       </Droppable>
     </div>
   );
-});
+}
+
+export const KanbanColumn = React.memo(KanbanColumnInner);

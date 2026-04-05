@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Draggable } from "@hello-pangea/dnd";
@@ -14,10 +14,7 @@ interface KanbanCardProps {
   index: number;
 }
 
-export const KanbanCard = memo(function KanbanCard({
-  item,
-  index,
-}: KanbanCardProps) {
+function KanbanCardInner({ item, index }: KanbanCardProps) {
   const [imgError, setImgError] = useState(false);
 
   return (
@@ -80,4 +77,6 @@ export const KanbanCard = memo(function KanbanCard({
       )}
     </Draggable>
   );
-});
+}
+
+export const KanbanCard = React.memo(KanbanCardInner);
