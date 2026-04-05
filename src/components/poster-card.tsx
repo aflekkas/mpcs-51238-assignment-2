@@ -13,9 +13,10 @@ interface PosterCardProps {
   item: WatchItem;
   size?: "sm" | "md" | "lg";
   className?: string;
+  matchPct?: number;
 }
 
-export function PosterCard({ item, size = "md", className }: PosterCardProps) {
+export function PosterCard({ item, size = "md", className, matchPct }: PosterCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
 
   const rotateX = useMotionValue(0);
@@ -82,6 +83,13 @@ export function PosterCard({ item, size = "md", className }: PosterCardProps) {
           alt={item.title}
           sizes="(max-width: 640px) 160px, 256px"
         />
+
+        {/* Match badge */}
+        {matchPct != null && matchPct > 0 && (
+          <div className="absolute top-2 left-2 bg-black/70 backdrop-blur-sm text-netflix-red text-xs font-semibold px-2 py-0.5 rounded-full z-10">
+            {matchPct}%
+          </div>
+        )}
 
         {/* Status badge */}
         <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">

@@ -501,14 +501,7 @@ export default function RecommendPage() {
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 sm:gap-8">
             {scoredCandidates.map(({ item, matchPct }, i) => (
               <BlurFade key={item.id} delay={0.1 + i * 0.05} offset={16}>
-                <div className="relative">
-                  <PosterCard item={item} className="w-full" />
-                  {matchPct > 0 && (
-                    <div className="absolute top-2 right-2 bg-black/70 backdrop-blur-sm text-netflix-red text-xs font-semibold px-2 py-0.5 rounded-full">
-                      {matchPct}%
-                    </div>
-                  )}
-                </div>
+                <PosterCard item={item} className="w-full" matchPct={matchPct} />
               </BlurFade>
             ))}
           </div>
