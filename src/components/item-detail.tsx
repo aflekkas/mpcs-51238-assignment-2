@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { toast } from "sonner";
 import { ArrowLeft, Heart } from "lucide-react";
 import Link from "next/link";
@@ -10,15 +9,11 @@ import { motion, AnimatePresence } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useWatchlist } from "@/lib/watchlist-context";
 import { type WatchItem, type WatchStatus, STATUS_LABELS } from "@/lib/types";
+import { PosterImage } from "./poster-image";
+import { MediaMetadata } from "./media-metadata";
+import { StatusSelect } from "./status-select";
 import { StarRating } from "./star-rating";
 import { StatusBadge } from "./status-badge";
 import { DeleteConfirmDialog } from "./delete-confirm-dialog";
@@ -33,11 +28,10 @@ export function ItemDetail({ item }: ItemDetailProps) {
   const { updateItem, deleteItem } = useWatchlist();
   const [isEditingReview, setIsEditingReview] = useState(false);
   const [reviewDraft, setReviewDraft] = useState(item.review);
-  const [imgError, setImgError] = useState(false);
 
-  const handleStatusChange = (newStatus: string) => {
-    updateItem(item.id, { status: newStatus as WatchStatus });
-    toast.success(`Status updated to "${STATUS_LABELS[newStatus as WatchStatus]}"`);
+  const handleStatusChange = (newStatus: WatchStatus) => {
+    updateItem(item.id, { status: newStatus });
+    toast.success(`Status updated to "${STATUS_LABELS[newStatus]}"`);
   };
 
   const handleRatingChange = (newRating: number | null) => {
@@ -88,20 +82,13 @@ export function ItemDetail({ item }: ItemDetailProps) {
           transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
           style={{ transformPerspective: 800 }}
         >
-          <div
-            className="relative w-full max-w-xs mx-auto lg:mx-0 lg:w-64 aspect-[2/3] rounded-md overflow-hidden"
-            style={{ background: item.posterGradient }}
-          >
-            {item.posterUrl && !imgError && (
-              <Image
-                src={item.posterUrl}
-                alt={item.title}
-                fill
-                className="object-cover"
-                sizes="256px"
-                onError={() => setImgError(true)}
-              />
-            )}
+          <div className="relative w-full max-w-xs mx-auto lg:mx-0 lg:w-64 aspect-[2/3] rounded-md overflow-hidden">
+            <PosterImage
+              posterUrl={item.posterUrl}
+              posterGradient={item.posterGradient}
+              alt={item.title}
+              sizes="256px"
+            />
           </div>
         </motion.div>
 
@@ -115,9 +102,7 @@ export function ItemDetail({ item }: ItemDetailProps) {
           >
             <div className="flex items-center gap-3 flex-wrap">
               <StatusBadge status={item.status} />
-              <span className="text-sm text-muted-foreground">
-                {item.year} / {item.genre} / {item.mediaType === "movie" ? "Movie" : "TV Show"}
-              </span>
+              <MediaMetadata item={item} className="text-sm text-muted-foreground" />
             </div>
 
             <div className="flex items-start justify-between gap-4">
@@ -167,17 +152,11 @@ export function ItemDetail({ item }: ItemDetailProps) {
             transition={{ delay: 0.35, duration: 0.4 }}
           >
             <Label className="text-muted-foreground">Status</Label>
-            <Select value={item.status} onValueChange={(val) => val && handleStatusChange(val)}>
-              <SelectTrigger className="w-48 bg-white/5">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="plan-to-watch">Plan to Watch</SelectItem>
-                <SelectItem value="watching">Watching</SelectItem>
-                <SelectItem value="completed">Completed</SelectItem>
-                <SelectItem value="dropped">Dropped</SelectItem>
-              </SelectContent>
-            </Select>
+            <StatusSelect
+              value={item.status}
+              onValueChange={handleStatusChange}
+              className="w-48 bg-white/5"
+            />
           </motion.div>
 
           {/* Review */}
