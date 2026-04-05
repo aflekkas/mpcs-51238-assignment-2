@@ -8,8 +8,8 @@ import { type WatchItem, type WatchStatus, STATUS_LABELS } from "@/lib/types";
 import { KanbanColumn } from "./kanban-column";
 
 const COLUMN_ORDER: WatchStatus[] = [
-  "watching",
   "plan-to-watch",
+  "watching",
   "completed",
   "dropped",
 ];
