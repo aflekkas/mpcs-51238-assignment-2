@@ -1,13 +1,16 @@
 "use client";
 
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useRef } from "react";
 import { useWatchlist } from "@/lib/watchlist-context";
 import { PosterCard } from "@/components/poster-card";
 import { EmptyState } from "@/components/empty-state";
 import { Button } from "@/components/ui/button";
-import { Heart, Shuffle, Sparkles } from "lucide-react";
+import { Heart, Shuffle } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { BlurFade } from "@/components/ui/blur-fade";
+import { SparklesText } from "@/components/ui/sparkles-text";
+import { NumberTicker } from "@/components/ui/number-ticker";
+import { Confetti, type ConfettiRef } from "@/components/ui/confetti";
 import Link from "next/link";
 
 export default function RecommendPage() {
@@ -19,12 +22,12 @@ export default function RecommendPage() {
   const [spotlight, setSpotlight] = useState<number | null>(null);
   const [isShuffling, setIsShuffling] = useState(false);
   const [shuffleKey, setShuffleKey] = useState(0);
+  const confettiRef = useRef<ConfettiRef>(null);
 
   const handleShuffle = useCallback(() => {
     if (favorites.length === 0 || isShuffling) return;
     setIsShuffling(true);
 
-    // Quick cycling through items for slot-machine feel
     let count = 0;
     const totalCycles = 8 + Math.floor(Math.random() * 5);
     const interval = setInterval(() => {
@@ -36,18 +39,19 @@ export default function RecommendPage() {
         setSpotlight(finalIndex);
         setShuffleKey((k) => k + 1);
         setIsShuffling(false);
+        // Fire confetti on pick
+        confettiRef.current?.fire({
+          particleCount: 80,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
       }
     }, 100);
   }, [favorites.length, isShuffling]);
 
   if (favorites.length === 0) {
     return (
-      <motion.div
-        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
+      <BlurFade delay={0.1} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <EmptyState
           icon={Heart}
           title="No Recommendations Yet"
@@ -62,7 +66,7 @@ export default function RecommendPage() {
             Browse Watchlist
           </Button>
         </EmptyState>
-      </motion.div>
+      </BlurFade>
     );
   }
 
@@ -70,44 +74,46 @@ export default function RecommendPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      {/* Confetti canvas */}
+      <Confetti
+        ref={confettiRef}
+        manualstart
+        className="pointer-events-none fixed inset-0 z-[200] h-full w-full"
+      />
+
       <div className="flex flex-col gap-8">
         {/* Header */}
-        <motion.div
-          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div>
-            <h1 className="text-3xl font-bold text-white flex items-center gap-3">
-              <motion.div
-                animate={{ rotate: [0, 15, -15, 0] }}
-                transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+        <BlurFade delay={0.05}>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <SparklesText
+                className="text-3xl font-bold text-white"
+                colors={{ first: "#E50914", second: "#FF6B6B" }}
+                sparklesCount={6}
               >
-                <Sparkles className="h-7 w-7 text-netflix-red" />
-              </motion.div>
-              Surprise Me
-            </h1>
-            <p className="text-muted-foreground mt-1">
-              Your top picks. Can&apos;t decide? Hit shuffle.
-            </p>
+                Surprise Me
+              </SparklesText>
+              <p className="text-muted-foreground mt-1">
+                Your top picks. Can&apos;t decide? Hit shuffle.
+              </p>
+            </div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95, rotate: -3 }}>
+              <Button
+                onClick={handleShuffle}
+                disabled={isShuffling}
+                className="bg-netflix-red hover:bg-netflix-red/80 text-white font-semibold gap-2 w-fit"
+              >
+                <motion.div
+                  animate={isShuffling ? { rotate: 360 } : {}}
+                  transition={isShuffling ? { duration: 0.5, repeat: Infinity, ease: "linear" } : {}}
+                >
+                  <Shuffle className="h-4 w-4" />
+                </motion.div>
+                {isShuffling ? "Shuffling..." : "Shuffle Pick"}
+              </Button>
+            </motion.div>
           </div>
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95, rotate: -3 }}>
-            <Button
-              onClick={handleShuffle}
-              disabled={isShuffling}
-              className="bg-netflix-red hover:bg-netflix-red/80 text-white font-semibold gap-2 w-fit"
-            >
-              <motion.div
-                animate={isShuffling ? { rotate: 360 } : {}}
-                transition={isShuffling ? { duration: 0.5, repeat: Infinity, ease: "linear" } : {}}
-              >
-                <Shuffle className="h-4 w-4" />
-              </motion.div>
-              {isShuffling ? "Shuffling..." : "Shuffle Pick"}
-            </Button>
-          </motion.div>
-        </motion.div>
+        </BlurFade>
 
         {/* Spotlight */}
         <AnimatePresence mode="wait">
@@ -169,17 +175,14 @@ export default function RecommendPage() {
 
         {/* Grid */}
         <div>
-          <motion.h2
-            className="text-lg font-semibold text-white mb-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            All Favorites ({favorites.length})
-          </motion.h2>
+          <BlurFade delay={0.2}>
+            <h2 className="text-lg font-semibold text-white mb-4">
+              All Favorites (<NumberTicker value={favorites.length} className="text-white" />)
+            </h2>
+          </BlurFade>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 sm:gap-8">
             {favorites.map((item, i) => (
-              <BlurFade key={item.id} delay={0.1 + i * 0.05} yOffset={16}>
+              <BlurFade key={item.id} delay={0.1 + i * 0.05} offset={16}>
                 <PosterCard item={item} className="w-full" />
               </BlurFade>
             ))}

@@ -159,21 +159,17 @@ export function AddItemForm() {
             onFocus={() => searchResults.length > 0 && setShowResults(true)}
             className="bg-white/5"
           />
-          {tmdbEnabled && (
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-              {isSearching ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Search className="h-4 w-4" />
-              )}
-            </div>
-          )}
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+            {isSearching ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Search className="h-4 w-4" />
+            )}
+          </div>
         </div>
-        {tmdbEnabled && (
-          <p className="text-xs text-muted-foreground">
-            Start typing to search TMDB for posters
-          </p>
-        )}
+        <p className="text-xs text-muted-foreground">
+          Start typing to search for posters
+        </p>
 
         {/* Search results dropdown */}
         {showResults && searchResults.length > 0 && (
@@ -323,9 +319,7 @@ export function AddItemForm() {
           </div>
         )}
         <p className="text-xs text-muted-foreground">
-          {tmdbEnabled
-            ? "Auto-filled from TMDB search, or paste your own URL"
-            : "Paste a direct image URL for the poster (optional)"}
+          Auto-filled from search, or paste your own URL
         </p>
       </div>
 
