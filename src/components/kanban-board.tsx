@@ -66,7 +66,7 @@ export function KanbanBoard({ search }: KanbanBoardProps) {
         const item = items.find((i) => i.id === draggableId);
         if (item) {
           toast.success(
-            `Moved "${item.title}" to ${STATUS_LABELS[targetStatus]}`
+            `"${item.title}" is now ${STATUS_LABELS[targetStatus]}!`
           );
         }
       }

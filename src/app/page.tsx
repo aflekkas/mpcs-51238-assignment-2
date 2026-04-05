@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { TextAnimate } from "@/components/ui/text-animate";
 import { NumberTicker } from "@/components/ui/number-ticker";
+import { PageContainer } from "@/components/page-container";
 import { KanbanBoard } from "@/components/kanban-board";
 
 export default function Home() {
@@ -17,7 +18,7 @@ export default function Home() {
   const [search, setSearch] = useState("");
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <PageContainer>
       <div className="flex flex-col gap-6">
         {/* Header */}
         <BlurFade delay={0.05}>
@@ -66,6 +67,6 @@ export default function Home() {
         {/* Kanban Board */}
         <KanbanBoard search={search} />
       </div>
-    </div>
+    </PageContainer>
   );
 }

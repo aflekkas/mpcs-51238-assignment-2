@@ -3,10 +3,11 @@
 import { BlurFade } from "@/components/ui/blur-fade";
 import { TextAnimate } from "@/components/ui/text-animate";
 import { AddItemForm } from "@/components/add-item-form";
+import { PageContainer } from "@/components/page-container";
 
 export default function AddPage() {
   return (
-    <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <PageContainer maxWidth="2xl">
       <div className="flex flex-col gap-6">
         <BlurFade delay={0.05}>
           <TextAnimate
@@ -26,6 +27,6 @@ export default function AddPage() {
           <AddItemForm />
         </BlurFade>
       </div>
-    </div>
+    </PageContainer>
   );
 }

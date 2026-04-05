@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Draggable } from "@hello-pangea/dnd";
+import { motion } from "motion/react";
 import { GripVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { type WatchItem } from "@/lib/types";
@@ -20,15 +21,26 @@ export function KanbanCard({ item, index }: KanbanCardProps) {
   return (
     <Draggable draggableId={item.id} index={index}>
       {(provided, snapshot) => (
-        <div
+        <motion.div
           ref={provided.innerRef}
           {...provided.draggableProps}
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{
+            delay: index * 0.04,
+            type: "spring",
+            stiffness: 300,
+            damping: 25,
+          }}
           className={cn(
             "flex items-center gap-3 rounded-md bg-white/5 p-2 transition-colors hover:bg-white/10",
-            snapshot.isDragging && "bg-white/10 shadow-xl shadow-black/50 ring-1 ring-netflix-red/30"
+            snapshot.isDragging && "bg-white/10 shadow-xl shadow-black/50 ring-1 ring-netflix-red/30 scale-105"
           )}
+          style={{
+            ...provided.draggableProps.style,
+          }}
         >
-          {/* Drag handle - outside link to avoid offset issues */}
+          {/* Drag handle */}
           <div
             {...provided.dragHandleProps}
             className="shrink-0 cursor-grab active:cursor-grabbing text-white/20 hover:text-white/50"
@@ -64,7 +76,7 @@ export function KanbanCard({ item, index }: KanbanCardProps) {
               {item.rating && <StarRating value={item.rating} size="sm" readonly />}
             </div>
           </Link>
-        </div>
+        </motion.div>
       )}
     </Draggable>
   );

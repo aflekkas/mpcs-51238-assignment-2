@@ -6,6 +6,7 @@ import Image from "next/image";
 import { toast } from "sonner";
 import { Search, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,21 +21,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
 import { useWatchlist } from "@/lib/watchlist-context";
 import { GENRES, type MediaType, type WatchStatus } from "@/lib/types";
+import { POSTER_GRADIENTS } from "@/lib/constants";
 import { StarRating } from "./star-rating";
+import { StatusSelect } from "./status-select";
 import { searchTmdb, type TmdbSearchResult } from "@/lib/tmdb";
-
-const POSTER_GRADIENTS = [
-  "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-  "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
-  "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-  "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
-  "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
-  "linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)",
-  "linear-gradient(135deg, #fccb90 0%, #d57eeb 100%)",
-  "linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)",
-  "linear-gradient(135deg, #f5576c 0%, #ff6a00 100%)",
-  "linear-gradient(135deg, #0c3483 0%, #a2b6df 70%, #6b8cce 100%)",
-];
 
 export function AddItemForm() {
   const router = useRouter();
@@ -103,7 +93,9 @@ export function AddItemForm() {
     setTitle(result.title);
     if (result.posterUrl) setPosterUrl(result.posterUrl);
     if (result.year) setYear(result.year.toString());
+    if (result.genre) setGenre(result.genre);
     setShowResults(false);
+    toast.success(`Filled in details for "${result.title}"`);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -261,17 +253,7 @@ export function AddItemForm() {
       {/* Status */}
       <div className="flex flex-col gap-2">
         <Label>Status</Label>
-        <Select value={status} onValueChange={(val) => val && setStatus(val as WatchStatus)}>
-          <SelectTrigger className="w-full bg-white/5">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="plan-to-watch">Plan to Watch</SelectItem>
-            <SelectItem value="watching">Watching</SelectItem>
-            <SelectItem value="completed">Completed</SelectItem>
-            <SelectItem value="dropped">Dropped</SelectItem>
-          </SelectContent>
-        </Select>
+        <StatusSelect value={status} onValueChange={setStatus} />
       </div>
 
       {/* Rating */}
@@ -335,12 +317,15 @@ export function AddItemForm() {
       </div>
 
       {/* Submit */}
-      <Button
+      <ShimmerButton
         type="submit"
-        className="bg-netflix-red hover:bg-netflix-red/80 text-white font-semibold w-full sm:w-auto"
+        shimmerColor="#E50914"
+        background="oklch(0.519 0.223 26)"
+        borderRadius="8px"
+        className="w-full sm:w-auto font-semibold"
       >
         Add to Watchlist
-      </Button>
+      </ShimmerButton>
     </form>
   );
 }

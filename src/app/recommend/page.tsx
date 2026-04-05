@@ -5,18 +5,20 @@ import { useWatchlist } from "@/lib/watchlist-context";
 import { PosterCard } from "@/components/poster-card";
 import { EmptyState } from "@/components/empty-state";
 import { Button } from "@/components/ui/button";
-import { Heart, Shuffle } from "lucide-react";
+import { Clapperboard, Shuffle } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { SparklesText } from "@/components/ui/sparkles-text";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { Confetti, type ConfettiRef } from "@/components/ui/confetti";
+import { PageContainer } from "@/components/page-container";
+import { MediaMetadata } from "@/components/media-metadata";
 import Link from "next/link";
 
 export default function RecommendPage() {
   const { items } = useWatchlist();
-  const favorites = useMemo(
-    () => items.filter((i) => i.favorite),
+  const candidates = useMemo(
+    () => items.filter((i) => i.status === "plan-to-watch"),
     [items]
   );
   const [spotlight, setSpotlight] = useState<number | null>(null);
@@ -25,21 +27,20 @@ export default function RecommendPage() {
   const confettiRef = useRef<ConfettiRef>(null);
 
   const handleShuffle = useCallback(() => {
-    if (favorites.length === 0 || isShuffling) return;
+    if (candidates.length === 0 || isShuffling) return;
     setIsShuffling(true);
 
     let count = 0;
     const totalCycles = 8 + Math.floor(Math.random() * 5);
     const interval = setInterval(() => {
-      setSpotlight(Math.floor(Math.random() * favorites.length));
+      setSpotlight(Math.floor(Math.random() * candidates.length));
       count++;
       if (count >= totalCycles) {
         clearInterval(interval);
-        const finalIndex = Math.floor(Math.random() * favorites.length);
+        const finalIndex = Math.floor(Math.random() * candidates.length);
         setSpotlight(finalIndex);
         setShuffleKey((k) => k + 1);
         setIsShuffling(false);
-        // Fire confetti on pick
         confettiRef.current?.fire({
           particleCount: 80,
           spread: 70,
@@ -47,34 +48,35 @@ export default function RecommendPage() {
         });
       }
     }, 100);
-  }, [favorites.length, isShuffling]);
+  }, [candidates.length, isShuffling]);
 
-  if (favorites.length === 0) {
+  if (candidates.length === 0) {
     return (
-      <BlurFade delay={0.1} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <EmptyState
-          icon={Heart}
-          title="No Recommendations Yet"
-          description="Mark items as favorites from their detail page to see them here."
-        >
-          <Button
-            nativeButton={false}
-            variant="outline"
-            className="border-white/20 text-white hover:bg-white/10"
-            render={<Link href="/" />}
+      <PageContainer>
+        <BlurFade delay={0.1}>
+          <EmptyState
+            icon={Clapperboard}
+            title="Nothing to Recommend"
+            description="Add some titles to your Plan to Watch list, then come back for a pick."
           >
-            Browse Watchlist
-          </Button>
-        </EmptyState>
-      </BlurFade>
+            <Button
+              nativeButton={false}
+              variant="outline"
+              className="border-white/20 text-white hover:bg-white/10"
+              render={<Link href="/" />}
+            >
+              Browse Watchlist
+            </Button>
+          </EmptyState>
+        </BlurFade>
+      </PageContainer>
     );
   }
 
-  const spotlightItem = spotlight !== null ? favorites[spotlight] : null;
+  const spotlightItem = spotlight !== null ? candidates[spotlight] : null;
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-      {/* Confetti canvas */}
+    <PageContainer>
       <Confetti
         ref={confettiRef}
         manualstart
@@ -94,7 +96,7 @@ export default function RecommendPage() {
                 Surprise Me
               </SparklesText>
               <p className="text-muted-foreground mt-1">
-                Your top picks. Can&apos;t decide? Hit shuffle.
+                Can&apos;t decide what to watch next? Let us pick for you.
               </p>
             </div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95, rotate: -3 }}>
@@ -158,10 +160,7 @@ export default function RecommendPage() {
                   <h2 className="text-2xl sm:text-3xl font-bold text-white">
                     {spotlightItem.title}
                   </h2>
-                  <p className="text-sm text-muted-foreground">
-                    {spotlightItem.year} / {spotlightItem.genre} /{" "}
-                    {spotlightItem.mediaType === "movie" ? "Movie" : "TV Show"}
-                  </p>
+                  <MediaMetadata item={spotlightItem} className="text-sm text-muted-foreground" />
                   {spotlightItem.review && (
                     <p className="text-sm text-white/70 mt-2 max-w-lg">
                       &ldquo;{spotlightItem.review}&rdquo;
@@ -177,11 +176,11 @@ export default function RecommendPage() {
         <div>
           <BlurFade delay={0.2}>
             <h2 className="text-lg font-semibold text-white mb-4">
-              All Favorites (<NumberTicker value={favorites.length} className="text-white" />)
+              Plan to Watch (<NumberTicker value={candidates.length} className="text-white" />)
             </h2>
           </BlurFade>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 sm:gap-8">
-            {favorites.map((item, i) => (
+            {candidates.map((item, i) => (
               <BlurFade key={item.id} delay={0.1 + i * 0.05} offset={16}>
                 <PosterCard item={item} className="w-full" />
               </BlurFade>
@@ -189,6 +188,6 @@ export default function RecommendPage() {
           </div>
         </div>
       </div>
-    </div>
+    </PageContainer>
   );
 }

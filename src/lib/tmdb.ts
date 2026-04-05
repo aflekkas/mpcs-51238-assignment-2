@@ -3,6 +3,8 @@ export interface TmdbSearchResult {
   title: string;
   posterUrl: string | null;
   year: number | null;
+  genre: string | null;
+  overview: string;
 }
 
 // In-memory cache: key is "mediaType:query", value is { results, timestamp }

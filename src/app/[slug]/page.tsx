@@ -7,6 +7,7 @@ import { EmptyState } from "@/components/empty-state";
 import { SearchX } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { PageContainer } from "@/components/page-container";
 
 export default function DetailPage({
   params,
@@ -19,7 +20,7 @@ export default function DetailPage({
 
   if (!item) {
     return (
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <PageContainer>
         <EmptyState
           icon={SearchX}
           title="Not Found"
@@ -34,13 +35,13 @@ export default function DetailPage({
             Back to Watchlist
           </Button>
         </EmptyState>
-      </div>
+      </PageContainer>
     );
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <PageContainer>
       <ItemDetail item={item} />
-    </div>
+    </PageContainer>
   );
 }

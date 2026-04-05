@@ -9,7 +9,7 @@ import {
 } from "react";
 import { seedData } from "./seed-data";
 import { type WatchItem, type WatchStatus } from "./types";
-import { slugify } from "./utils";
+import { generateUniqueSlug } from "./utils";
 
 interface WatchlistContextValue {
   items: WatchItem[];
@@ -34,23 +34,9 @@ export function WatchlistProvider({ children }: { children: ReactNode }) {
 
   const addItem = useCallback(
     (data: Omit<WatchItem, "id" | "slug" | "addedAt">) => {
-      let slug = slugify(data.title);
-
-      // Prevent collisions with static routes
-      const RESERVED_SLUGS = new Set(["add", "recommend"]);
-      if (RESERVED_SLUGS.has(slug)) {
-        slug = `${slug}-1`;
-      }
-
-      // Handle slug collisions
-      const existingSlugs = new Set(items.map((i) => i.slug));
-      if (existingSlugs.has(slug)) {
-        let counter = 2;
-        while (existingSlugs.has(`${slug}-${counter}`)) {
-          counter++;
-        }
-        slug = `${slug}-${counter}`;
-      }
+      const RESERVED_SLUGS = ["add", "recommend"];
+      const existingSlugs = new Set([...items.map((i) => i.slug), ...RESERVED_SLUGS]);
+      const slug = generateUniqueSlug(data.title, existingSlugs);
 
       const newItem: WatchItem = {
         ...data,

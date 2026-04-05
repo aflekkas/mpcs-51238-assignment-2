@@ -31,28 +31,29 @@ export function ItemDetail({ item }: ItemDetailProps) {
 
   const handleStatusChange = (newStatus: WatchStatus) => {
     updateItem(item.id, { status: newStatus });
-    toast.success(`Status updated to "${STATUS_LABELS[newStatus]}"`);
+    toast.success(`Now "${STATUS_LABELS[newStatus]}" -- nice!`);
   };
 
   const handleRatingChange = (newRating: number | null) => {
     updateItem(item.id, { rating: newRating });
-    toast.success(newRating ? `Rated ${newRating}/5 stars` : "Rating cleared");
+    const msgs = ["Great taste!", "Noted!", "Fair enough!", "Solid pick!", "Interesting..."];
+    toast.success(newRating ? `${"★".repeat(newRating)}${"☆".repeat(5 - newRating)} ${msgs[newRating - 1]}` : "Rating cleared");
   };
 
   const handleFavoriteToggle = () => {
     updateItem(item.id, { favorite: !item.favorite });
-    toast.success(item.favorite ? "Removed from recommendations" : "Added to recommendations");
+    toast.success(item.favorite ? "Removed from the VIP list" : "Added to the VIP list!");
   };
 
   const handleReviewSave = () => {
     updateItem(item.id, { review: reviewDraft.trim() });
     setIsEditingReview(false);
-    toast.success("Review updated");
+    toast.success("Review saved! Certified critic moment.");
   };
 
   const handleDelete = () => {
     deleteItem(item.id);
-    toast.success(`Deleted "${item.title}"`);
+    toast.success(`"${item.title}" has left the chat.`);
     router.push("/");
   };
 
