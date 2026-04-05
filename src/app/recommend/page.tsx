@@ -7,6 +7,7 @@ import { EmptyState } from "@/components/empty-state";
 import { Button } from "@/components/ui/button";
 import { Heart, Shuffle, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { BlurFade } from "@/components/ui/blur-fade";
 import Link from "next/link";
 
 export default function RecommendPage() {
@@ -176,21 +177,11 @@ export default function RecommendPage() {
           >
             All Favorites ({favorites.length})
           </motion.h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 sm:gap-8">
             {favorites.map((item, i) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{
-                  delay: 0.1 + i * 0.06,
-                  type: "spring",
-                  stiffness: 200,
-                  damping: 20,
-                }}
-              >
+              <BlurFade key={item.id} delay={0.1 + i * 0.05} yOffset={16}>
                 <PosterCard item={item} className="w-full" />
-              </motion.div>
+              </BlurFade>
             ))}
           </div>
         </div>
